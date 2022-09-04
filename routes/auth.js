@@ -24,22 +24,4 @@ const auth = {
   }),
 };
 
-// const jwt = require("jsonwebtoken");
-// const secret = require("../config").secret;
-
-// function auth(req, res, next) {
-//   const token = req.header("authorization-token");
-
-//   if (!token) {
-//     res.status(401).send("Você não possui um token de login");
-//   }
-//   try {
-//     userVerified = jwt.verify(token, secret);
-//     user = userVerified;
-//     next();
-//   } catch (error) {
-//     res.status(401).send("O token está incorreto");
-//   }
-// }
-
 module.exports = auth;
