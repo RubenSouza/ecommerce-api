@@ -10,6 +10,7 @@ const RegistroPedido = mongoose.model("RegistroPedido");
 const { calcularFrete } = require("./integracoes/correios");
 const CarrinhoValidation = require("./validacoes/carrinhoValidation");
 const EntregaValidation = require("./validacoes/entregaValidation");
+const PagamentoValidation = require("./validacoes/pagamentoValidation");
 
 class PedidoController {
   //ADMIN
@@ -189,10 +190,22 @@ class PedidoController {
         return res.status(422).send({ error: "Carrinho Inválido" });
 
       // CHECAR DADOS DO PAGAMENTO
-      //if (!PagamentoValidation(carrinho, pagamento))
-      //return res.status(422).send({ error: "Dados de pagamento Inválidos" });
+      if (
+        !(await PagamentoValidation.checarValorTotal({
+          carrinho,
+          pagamento,
+          entrega,
+        }))
+      )
+        return res.status(422).send({ error: "Dados de pagamento Inválidos" });
 
-      const cliente = await Cliente.findOne({ usuario: req.payload.id });
+      if (!PagamentoValidation.checarCartao(pagamento))
+        return res
+          .status(422)
+          .send({ error: "Dados de pagamento com cartão Inválidos" });
+      const cliente = await Cliente.findOne({
+        usuario: req.payload.id,
+      }).populate("usuario");
 
       //CHECAR DADOS DE ENTREGA
 
@@ -207,9 +220,12 @@ class PedidoController {
 
       const novoPagamento = new Pagamento({
         valor: pagamento.valor,
+        parcelas: pagamento.parcelas || 1,
         forma: pagamento.forma,
         status: "Iniciando",
-        payload: pagamento,
+        endereco: pagamento.endereco,
+        cartao: pagamento.cartao,
+        enderecoEntregaIgualCobranca: pagamento.enderecoEntregaIgualCobranca,
         loja,
       });
       const novaEntrega = new Entrega({
@@ -217,7 +233,7 @@ class PedidoController {
         custo: entrega.custo,
         prazo: entrega.prazo,
         tipo: entrega.tipo,
-        payload: entrega,
+        endereco: entrega.endereco,
         loja,
       });
       const pedido = new Pedido({
