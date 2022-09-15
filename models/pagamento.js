@@ -7,6 +7,7 @@ const PagamentoSchema = Schema(
     valor: { type: Number, required: true },
     forma: { type: String, required: true },
     parcelas: { type: Number, default: 1 },
+    status: { type: String, required: true },
     endereco: {
       type: {
         local: { type: String, required: true },
@@ -28,13 +29,12 @@ const PagamentoSchema = Schema(
         credit_card_token: { type: String, required: true },
         cpf: { type: String, required: true },
       },
-      required: true,
     },
     enderecoEntregaIgualCobranca: {
       type: Boolean,
       default: true,
     },
-    status: { type: String, required: true },
+
     pedido: { type: Schema.Types.ObjectId, ref: "Pedido", required: true },
     loja: { type: Schema.Types.ObjectId, ref: "Loja", required: true },
     payload: { type: Array },

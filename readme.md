@@ -28,8 +28,8 @@ Este projeto é parte do curso do Matheus Machado "Criando um Ecommerce do Zero 
 <li>API - Integração: Entrega (Correios) - Completo</li>
 <li>API - Entrega - Completo</li>
 <li>API - Integração: PagSeguro - Completo</li>
-<li>API - Pagamentos</li>
-<li>API - Finalizando</li>
-<li>API - Notificações por Email</li>
-<li>API - Validação e Automatização de Quantidades</li>
+<li>API - Pagamentos - Completo</li>
+<li>API - Finalizando - Completo</li>
+<li>API - (Extra)Notificações por Email - To do</li>
+<li>API - (Extra)Validação e Automatização de Quantidades - To do</li>
 </ol>

@@ -68,7 +68,7 @@ const PedidoValidation = {
         endereco: Joi.object({
           local: Joi.string().required(),
           numero: Joi.string().required(),
-          complemento: Joi.string().required(),
+          complemento: Joi.string().optional(),
           bairro: Joi.string().required(),
           cidade: Joi.string().required(),
           estado: Joi.string().required(),
@@ -78,7 +78,7 @@ const PedidoValidation = {
           nomeCompleto: Joi.string().required(),
           codigoArea: Joi.string().required(),
           telefone: Joi.string().required(),
-          dataDeNascimento: Joi.date().format("DD-MM-YYYY").raw().required(),
+          dataDeNascimento: Joi.date().format("DD/MM/YYYY").raw().required(),
           credit_card_token: Joi.string().required(),
           cpf: Joi.string().required(),
         }).optional(),
@@ -91,7 +91,7 @@ const PedidoValidation = {
         endereco: Joi.object({
           local: Joi.string().required(),
           numero: Joi.string().required(),
-          complemento: Joi.string().required(),
+          complemento: Joi.string().optional(),
           bairro: Joi.string().required(),
           cidade: Joi.string().required(),
           estado: Joi.string().required(),

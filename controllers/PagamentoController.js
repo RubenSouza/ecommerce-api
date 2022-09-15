@@ -20,7 +20,7 @@ class PagamentoController {
         loja: req.query.loja,
       });
       if (!pagamento)
-        return res.status(300).send({ error: "Pagamento não existe" });
+        return res.status(400).send({ error: "Pagamento não existe" });
       const registros = await RegistroPedido.find({
         pedido: pagamento.pedido,
         tipo: "pagamento",
@@ -32,6 +32,8 @@ class PagamentoController {
       if (
         situacao &&
         (registros.length === 0 ||
+          !registros[registros.length - 1].payload ||
+          !registros[registros.length - 1].payload.code ||
           registros[registros.length - 1].payload.code !== situacao.code)
       ) {
         const registroPedido = new RegistroPedido({
@@ -59,7 +61,7 @@ class PagamentoController {
         loja: req.query.loja,
       });
       if (!pagamento)
-        return res.status(300).send({ error: "Pagamento não existe" });
+        return res.status(400).send({ error: "Pagamento não existe" });
       const pedido = await Pedido.findById(pagamento.pedido).populate([
         { path: "cliente", populate: "usuario" },
         { path: "entrega" },
@@ -87,7 +89,7 @@ class PagamentoController {
 
   async update(req, res, next) {
     const { status } = req.body;
-    const [loja] = req.query;
+    const { loja } = req.query;
     try {
       const pagamento = await Pagamento.findOne({
         _id: req.params.id,
@@ -97,6 +99,7 @@ class PagamentoController {
         return res.status(300).send({ error: "Pagamento não existe" });
 
       if (status) pagamento.status = status;
+
       const registroPedido = new RegistroPedido({
         pedido: pagamento.pedido,
         tipo: "pagamento",

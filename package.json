@@ -7,8 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "mocha --timeout 2000 --exit",
+    "dev": "NODE_ENV=development nodemon server.js",
+    "build": "NODE_ENV=production pm2 start server.js --name=\"ecommerce\""
   },
   "repository": {
     "type": "git",
